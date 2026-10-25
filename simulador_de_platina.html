@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Platina</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, transparent 70%);
+        }
+        
+        /* Custom styles for range sliders */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #06b6d4;
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.6);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: #334155;
+            border-radius: 999px;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+
+        /* Neon Glow effect for numbers */
+        .neon-text {
+            text-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+        }
+        .neon-border {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.1);
+        }
+    </style>
+</head>
+<body class="text-gray-200 min-h-screen flex items-center justify-center p-4 sm:p-8">
+
+    <div class="max-w-5xl w-full bg-gray-900/80 backdrop-blur-xl rounded-3xl border border-gray-800 shadow-2xl overflow-hidden neon-border">
+        
+        <!-- Header -->
+        <div class="px-8 py-6 border-b border-gray-800 bg-gray-900/50 flex items-center gap-4">
+            <svg class="w-8 h-8 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg>
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Simulador de Platina</h1>
+                <p class="text-sm text-gray-400 font-medium mt-1">Planeje sua próxima conquista 100%</p>
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row">
+            
+            <!-- CONTROLES INTERATIVOS (Esquerda) -->
+            <div class="w-full lg:w-1/2 p-8 border-r border-gray-800 flex flex-col gap-8">
+                
+                <!-- Slider: Duração do Jogo Base -->
+                <div>
+                    <div class="flex justify-between items-end mb-4">
+                        <label for="baseTime" class="text-sm font-semibold text-gray-300 uppercase tracking-wider">Duração do Jogo Base</label>
+                        <div class="text-2xl font-bold text-cyan-400"><span id="baseTimeLabel">50</span><span class="text-sm text-gray-500 ml-1">h</span></div>
+                    </div>
+                    <input type="range" id="baseTime" min="10" max="200" value="50">
+                    <div class="flex justify-between text-xs text-gray-500 mt-2 font-medium">
+                        <span>10h</span>
+                        <span>200h</span>
+                    </div>
+                </div>
+
+                <!-- Slider: Tempo de Jogo Semanal -->
+                <div>
+                    <div class="flex justify-between items-end mb-4">
+                        <label for="weeklyTime" class="text-sm font-semibold text-gray-300 uppercase tracking-wider">Tempo de Jogo Semanal</label>
+                        <div class="text-2xl font-bold text-cyan-400"><span id="weeklyTimeLabel">10</span><span class="text-sm text-gray-500 ml-1">h/sem</span></div>
+                    </div>
+                    <input type="range" id="weeklyTime" min="1" max="40" value="10">
+                    <div class="flex justify-between text-xs text-gray-500 mt-2 font-medium">
+                        <span>1h</span>
+                        <span>40h</span>
+                    </div>
+                </div>
+
+                <hr class="border-gray-800">
+
+                <!-- Toggles -->
+                <div class="flex flex-col gap-5">
+                    <!-- Toggle Platina -->
+                    <label class="flex items-center justify-between cursor-pointer group">
+                        <div>
+                            <span class="block text-base font-semibold text-gray-200 group-hover:text-white transition-colors">Modo Platinar / 100%</span>
+                            <span class="text-xs text-gray-500 font-medium">Adiciona 50% ao tempo base para coletáveis.</span>
+                        </div>
+                        <div class="relative ml-4">
+                            <input type="checkbox" id="platToggle" class="sr-only peer">
+                            <div class="w-14 h-7 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-cyan-500 shadow-inner"></div>
+                        </div>
+                    </label>
+
+                    <!-- Toggle DLC -->
+                    <label class="flex items-center justify-between cursor-pointer group">
+                        <div>
+                            <span class="block text-base font-semibold text-gray-200 group-hover:text-white transition-colors">Incluir DLCs/Expansões</span>
+                            <span class="text-xs text-gray-500 font-medium">Adiciona 15 horas extras de conteúdo.</span>
+                        </div>
+                        <div class="relative ml-4">
+                            <input type="checkbox" id="dlcToggle" class="sr-only peer">
+                            <div class="w-14 h-7 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-cyan-500 shadow-inner"></div>
+                        </div>
+                    </label>
+                </div>
+
+            </div>
+
+            <!-- RESULTADOS DINÂMICOS (Direita) -->
+            <div class="w-full lg:w-1/2 p-8 bg-gray-900/30 flex flex-col justify-center gap-6">
+                
+                <!-- Total Horas -->
+                <div class="bg-gray-800/60 border border-gray-700/50 rounded-2xl p-6 transform transition-transform hover:scale-[1.02]">
+                    <div class="flex items-center gap-2 mb-2">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Total de Horas Necessárias</h3>
+                    </div>
+                    <div class="text-5xl sm:text-6xl font-black text-cyan-400 neon-text" id="resTotalHoras">50h</div>
+                </div>
+
+                <!-- Semanas -->
+                <div class="bg-gray-800/60 border border-gray-700/50 rounded-2xl p-6 transform transition-transform hover:scale-[1.02]">
+                    <div class="flex items-center gap-2 mb-2">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Semanas para Concluir</h3>
+                    </div>
+                    <div class="text-4xl sm:text-5xl font-black text-white" id="resSemanas">5.0 <span class="text-xl text-gray-500 font-semibold">semanas</span></div>
+                </div>
+
+                <!-- Data de Conclusão -->
+                <div class="bg-gradient-to-br from-cyan-900/30 to-gray-800/60 border border-cyan-800/30 rounded-2xl p-6 transform transition-transform hover:scale-[1.02]">
+                    <div class="flex items-center gap-2 mb-2">
+                        <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+                        <h3 class="text-sm font-semibold text-cyan-400 uppercase tracking-wider">Data de Conclusão Projetada</h3>
+                    </div>
+                    <div class="text-2xl sm:text-3xl font-bold text-white mt-1" id="resData">Atualizando...</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Elementos de Input (Controles)
+        const baseTimeInput = document.getElementById('baseTime');
+        const weeklyTimeInput = document.getElementById('weeklyTime');
+        const platToggle = document.getElementById('platToggle');
+        const dlcToggle = document.getElementById('dlcToggle');
+
+        // Elementos de Label (Mostrar valor do slider)
+        const baseTimeLabel = document.getElementById('baseTimeLabel');
+        const weeklyTimeLabel = document.getElementById('weeklyTimeLabel');
+
+        // Elementos de Output (Resultados)
+        const resTotalHoras = document.getElementById('resTotalHoras');
+        const resSemanas = document.getElementById('resSemanas');
+        const resData = document.getElementById('resData');
+
+        // Função principal de cálculo
+        function calculateStats() {
+            // 1. Obter valores atuais
+            const baseTime = parseInt(baseTimeInput.value);
+            const weeklyTime = parseInt(weeklyTimeInput.value);
+            const isPlat = platToggle.checked;
+            const hasDLC = dlcToggle.checked;
+
+            // Atualizar labels visuais dos sliders
+            baseTimeLabel.textContent = baseTime;
+            weeklyTimeLabel.textContent = weeklyTime;
+
+            // 2. Calcular Total de Horas
+            let totalHours = baseTime;
+            if (isPlat) {
+                totalHours = totalHours * 1.5; // Adiciona 50%
+            }
+            if (hasDLC) {
+                totalHours += 15; // Adiciona 15 horas fixas
+            }
+
+            // 3. Calcular Semanas (Formatado para 1 casa decimal)
+            const weeksNeeded = totalHours / weeklyTime;
+
+            // 4. Calcular Data Projetada
+            const today = new Date();
+            // Multiplicamos as semanas por 7 para obter dias. 
+            // Depois multiplicamos por (24h * 60m * 60s * 1000ms) para adicionar à data atual.
+            const daysNeeded = weeksNeeded * 7;
+            const completionDate = new Date(today.getTime() + (daysNeeded * 24 * 60 * 60 * 1000));
+            
+            // Opções para formatar a data de forma amigável em Português
+            const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+            const formattedDate = completionDate.toLocaleDateString('pt-BR', dateOptions);
+
+            // 5. Atualizar a Interface do Usuário (DOM)
+            // Arredondamos o total de horas visualmente se tiver decimais, mas mantemos exato
+            resTotalHoras.textContent = Math.round(totalHours) + 'h'; 
+            
+            resSemanas.innerHTML = weeksNeeded.toFixed(1) + ' <span class="text-xl text-gray-500 font-semibold">semanas</span>';
+            
+            resData.textContent = formattedDate;
+        }
+
+        // Adicionar "Event Listeners" para recalcular sempre que algo mudar
+        baseTimeInput.addEventListener('input', calculateStats);
+        weeklyTimeInput.addEventListener('input', calculateStats);
+        platToggle.addEventListener('change', calculateStats);
+        dlcToggle.addEventListener('change', calculateStats);
+
+        // Inicializar os cálculos assim que a página carregar
+        calculateStats();
+    </script>
+</body>
+</html>
